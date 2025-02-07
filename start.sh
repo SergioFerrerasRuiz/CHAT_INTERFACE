@@ -1,3 +1,3 @@
 #!/bin/bash
-cd app
-gunicorn app:app
+
+gunicorn app.app:app
