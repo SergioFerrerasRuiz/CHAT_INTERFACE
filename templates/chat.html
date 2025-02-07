@@ -6,35 +6,7 @@
     <title>SERYICHAT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        #chat-box {
-            overflow-y: auto;
-            max-height: calc(100vh - 200px);
-            display: flex;
-            flex-direction: column;
-        }
-        .message {
-            max-width: 80%;
-            word-wrap: break-word;
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin: 4px;
-            display: inline-block;
-        }
-        .user-message {
-            align-self: flex-end;
-            background-color: #4A5568;
-            color: white;
-            text-align: right;
-        }
-        .bot-message {
-            align-self: flex-start;
-            background-color: #CBD5E0;
-            color: black;
-        }
-    </style>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body class="bg-gray-950 text-white flex flex-col h-screen items-center p-4">
     <div class="w-full max-w-2xl bg-gray-900 shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
@@ -51,44 +23,8 @@
             <button id="clear-chat" class="ml-2 bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-lg">🗑️</button>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-    $("#chat-form").on("submit", function(e) {
-        e.preventDefault();
-        const loadingCircle = $("#loading-circle");
-        loadingCircle.removeClass("hidden");
 
-        const userQuestion = $("#chat-input").val().trim();
-        if (userQuestion === "") {
-            loadingCircle.addClass("hidden");
-            return;
-        }
-
-        // Agrega el mensaje del usuario al chat
-        $("#chat-box").append(`<div class='message user-message'><strong>Tú:</strong> ${userQuestion}</div>`);
-        $("#chat-input").val("");
-
-        $.ajax({
-            type: "POST",
-            url: "/ask",
-            contentType: "application/json",
-            data: JSON.stringify({ question: userQuestion }),
-            success: function(response) {
-                loadingCircle.addClass("hidden");
-                if (response.answer) {
-                    $("#chat-box").append(`<div class='message bot-message'><strong>SERYI:</strong> ${response.answer}</div>`);
-                } else {
-                    $("#chat-box").append(`<div class='message bot-message text-red-500'>Error en la respuesta</div>`);
-                }
-                $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
-            },
-            error: function(xhr, errmsg, err) {
-                loadingCircle.addClass("hidden");
-                $("#chat-box").append(`<div class='message bot-message text-red-500'>Error en AJAX</div>`);
-            }
-        });
-    });
-});
-    </script>
+    <!-- Referenciamos el archivo JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
