@@ -1,3 +1,4 @@
 #!/bin/bash
-cd app
-gunicorn app:app
+source entorno/Scripts/activate
+exec gunicorn -b :$PORT app:app
+
